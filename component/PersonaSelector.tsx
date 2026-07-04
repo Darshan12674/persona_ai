@@ -12,13 +12,13 @@ export default function PersonaSelector({
   setPersona,
 }: Props) {
   return (
-    <div className="flex gap-4 mt-6 mb-6">
+    <div className="mt-5 mb-4 flex flex-wrap gap-3">
       <button
         onClick={() => setPersona("hitesh")}
-        className={`rounded-xl px-5 py-3 transition font-medium ${
+        className={`rounded-full border px-4 py-2 text-sm font-medium transition ${
           persona === "hitesh"
-            ? "bg-blue-600 text-white"
-            : "bg-zinc-800 hover:bg-zinc-700"
+            ? "border-blue-500/50 bg-blue-600/20 text-blue-200 shadow-inner shadow-blue-500/10"
+            : "border-white/10 bg-zinc-900/70 text-zinc-300 hover:border-zinc-700 hover:bg-zinc-800"
         }`}
       >
         ☕ Hitesh Choudhary
@@ -26,10 +26,10 @@ export default function PersonaSelector({
 
       <button
         onClick={() => setPersona("piyush")}
-        className={`rounded-xl px-5 py-3 transition font-medium ${
+        className={`rounded-full border px-4 py-2 text-sm font-medium transition ${
           persona === "piyush"
-            ? "bg-blue-600 text-white"
-            : "bg-zinc-800 hover:bg-zinc-700"
+            ? "border-fuchsia-500/50 bg-fuchsia-600/20 text-fuchsia-200 shadow-inner shadow-fuchsia-500/10"
+            : "border-white/10 bg-zinc-900/70 text-zinc-300 hover:border-zinc-700 hover:bg-zinc-800"
         }`}
       >
         🚀 Piyush Garg

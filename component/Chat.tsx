@@ -10,11 +10,8 @@ import ChatInput from "./ChatInput";
 import { ChatMessage, Persona } from "@/types/chat";
 
 export default function Chat() {
-  const [persona, setPersona] =
-    useState<Persona>("hitesh");
-
+  const [persona, setPersona] = useState<Persona>("hitesh");
   const [messages, setMessages] = useState<ChatMessage[]>([]);
-
   const [loading, setLoading] = useState(false);
 
   const bottomRef = useRef<HTMLDivElement>(null);
@@ -34,17 +31,14 @@ export default function Chat() {
     const updatedMessages = [...messages, userMessage];
 
     setMessages(updatedMessages);
-
     setLoading(true);
 
     try {
       const response = await fetch("/api/chat", {
         method: "POST",
-
         headers: {
           "Content-Type": "application/json",
         },
-
         body: JSON.stringify({
           persona,
           message: text,
@@ -74,29 +68,21 @@ export default function Chat() {
   }
 
   return (
-    <div className="max-w-5xl mx-auto h-screen flex flex-col p-6">
+    <div className="mx-auto flex h-screen max-w-6xl flex-col px-3 py-3 sm:px-6 sm:py-6">
+      <div className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-[32px] border border-white/10 bg-zinc-950/80 shadow-[0_30px_100px_rgba(0,0,0,0.45)] backdrop-blur-xl">
+        <div className="flex min-h-0 flex-1 flex-col px-4 py-4 sm:px-6 sm:py-6">
+          <ChatHeader />
 
-      <ChatHeader />
+          <PersonaSelector persona={persona} setPersona={setPersona} />
 
-      <PersonaSelector
-        persona={persona}
-        setPersona={setPersona}
-      />
+          <div className="mt-3 min-h-0 flex-1 overflow-y-auto rounded-3xl border border-white/5 bg-zinc-900/40 px-2 py-2 sm:px-3 sm:py-3">
+            <ChatMessages messages={messages} loading={loading} />
+            <div ref={bottomRef} />
+          </div>
 
-      <div className="flex-1 overflow-y-auto my-6">
-        <ChatMessages
-          messages={messages}
-          loading={loading}
-        />
-
-        <div ref={bottomRef} />
+          <ChatInput onSend={sendMessage} loading={loading} />
+        </div>
       </div>
-
-      <ChatInput
-        onSend={sendMessage}
-        loading={loading}
-      />
-
     </div>
   );
 }

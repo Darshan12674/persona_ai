@@ -1,62 +1,59 @@
-"use client"
+"use client";
 
-import { useState, KeyboardEvent } from "react"
-import { text } from "stream/consumers"
+import { KeyboardEvent, useState } from "react";
+import { Send } from "lucide-react";
 
 interface ChatInputProps {
-    onSend: (message: string) => void
-    loading: boolean
+  onSend: (message: string) => void;
+  loading: boolean;
 }
 
-export default function ChatInput ({
-    onSend,
-    loading
-}: ChatInputProps) {
-    const  [message, setMessage] = useState("")
+export default function ChatInput({ onSend, loading }: ChatInputProps) {
+  const [message, setMessage] = useState("");
 
-    function handleSend(){
-        const text = message.trim()
+  function handleSend() {
+    const text = message.trim();
 
-        if(!text || loading) return
+    if (!text || loading) return;
 
-        onSend(text)
-        setMessage("")
+    onSend(text);
+    setMessage("");
+  }
+
+  function handleKeyDown(e: KeyboardEvent<HTMLTextAreaElement>) {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      handleSend();
     }
+  }
 
-    function handleKeyDown(
-        e: KeyboardEvent<HTMLTextAreaElement>
-    ) {
-        if(e.key === "Enter" && !e.shiftKey) {
-            e.preventDefault()
-            handleSend()
-        }
-    }
+  return (
+    <div className="border-t border-white/10 pt-4">
+      <div className="rounded-2xl border border-white/10 bg-zinc-900/70 p-3 shadow-inner shadow-black/20">
+        <div className="flex items-end gap-3">
+          <textarea
+            rows={2}
+            placeholder="Ask anything..."
+            value={message}
+            disabled={loading}
+            onChange={(e) => setMessage(e.target.value)}
+            onKeyDown={handleKeyDown}
+            className="min-h-[56px] flex-1 resize-none bg-transparent p-2 text-sm text-zinc-100 outline-none placeholder:text-zinc-500"
+          />
 
-     return (
-    <div className="border-t border-zinc-800 pt-4">
-      <div className="flex gap-3">
+          <button
+            onClick={handleSend}
+            disabled={loading}
+            className="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-600 text-white transition hover:bg-blue-500 disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            <Send size={18} />
+          </button>
+        </div>
 
-        <textarea
-          rows={2}
-          placeholder="Ask anything..."
-          value={message}
-          disabled={loading}
-          onChange={(e) => setMessage(e.target.value)}
-          onKeyDown={handleKeyDown}
-          className="flex-1 rounded-xl bg-zinc-900 border border-zinc-700 p-4 resize-none outline-none focus:border-blue-500"
-        />
-
-        <button
-          onClick={handleSend}
-          disabled={loading}
-          className="px-6 rounded-xl bg-blue-600 hover:bg-blue-700 disabled:opacity-50"
-        >
-          Send
-        </button>
-
+        <p className="mt-2 px-2 text-xs text-zinc-500">
+          Press Enter to send • Shift + Enter for a new line
+        </p>
       </div>
     </div>
   );
-
-    
 }
