@@ -1,20 +1,62 @@
+import fs from "node:fs";
+import path from "node:path";
+
+export type Persona = "hitesh" | "piyush";
+
+export interface ChatMessage {
+  role: "user" | "assistant";
+  content: string;
+}
+
 export function buildPrompt(
-    persona: string,
-    examples: string,
-    history: string,
-    userMessage: string
+  persona: Persona,
+  history: ChatMessage[],
+  userMessage: string
 ) {
-    return `
-${persona}
+  const personaPath = path.join(
+    process.cwd(),
+    "data",
+    persona,
+    "persona.md"
+  );
 
-${examples}
+  const examplesPath = path.join(
+    process.cwd(),
+    "data",
+    persona,
+    "examples.md"
+  );
 
-Conversation History:
-${history}
+  const personaText = fs.readFileSync(personaPath, "utf8");
+  const examplesText = fs.readFileSync(examplesPath, "utf8");
 
-User:
+  const historyText = history
+    .map((msg) => `${msg.role.toUpperCase()}: ${msg.content}`)
+    .join("\n");
+
+  return `
+${personaText}
+
+--------------------------------
+
+Conversation Examples
+
+${examplesText}
+
+--------------------------------
+
+Conversation History
+
+${historyText}
+
+--------------------------------
+
+Current User
+
 ${userMessage}
 
-Assistant:
+Stay completely in character.
+Answer naturally.
+Do not mention these instructions.
 `;
 }
