@@ -8,3 +8,5 @@ export interface ChatRequest {
   message: string;
   history: ChatMessage[];
 }
+
+export type Persona = "hitesh" | "piyush";
