@@ -202,7 +202,7 @@ The application is deployed using Vercel.
 
 Production URL:
 
-https://your-project.vercel.app
+https://persona-ai-phi-liard.vercel.app/
 
 ## Future Improvements
 
