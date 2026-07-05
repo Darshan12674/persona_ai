@@ -1,6 +1,8 @@
 "use client";
 
 import { ChatMessage } from "@/types/chat";
+import ReactMarkdown from "react-markdown";
+
 
 interface Props {
   message: ChatMessage;
@@ -23,7 +25,9 @@ export default function Message({ message }: Props) {
               : "border border-white/10 bg-zinc-900/80 text-zinc-100"
           }`}
         >
-          {message.content}
+          <ReactMarkdown>
+            {message.content}
+          </ReactMarkdown>
         </div>
       </div>
     </div>
